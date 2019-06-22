@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                template="./../template/layout.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <h:panelGroup rendered="#{tratadorHomeLogadoBean.verificaLogado() != ''}">
+            <h:form>
+                <h:dataTable value="#{agendaBean.lstAnimal}" rendered="#{agendaBean.status == 'Default'}" class="bordered highlight" var="animal">
+                    <h:column>
+                        <f:facet name="header">Código</f:facet>
+                            #{animal.codigo}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Animal</f:facet>
+                            #{animal.nome}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Agendar consulta</f:facet>
+                        <h:commandLink actionListener="#{agendaBean.addAgendaConsulta(animal)}" value="Agendar" />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Ver Agendamentos</f:facet>
+                        <h:commandLink actionListener="#{agendaBean.listaAgendamentoConsultas(animal)}"  value="visualizar" />
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+            <p:growl id="growl" autoUpdate="true" sticky="true"/>
+            <h:panelGroup rendered="#{agendaBean.status == 'agendar'}">
+                <h1>Agendamento</h1>
+                <h:form>
+                    <h:commandButton class="btn waves-light" value="Voltar" actionListener="#{agendaBean.back()}"/>
+                </h:form>
+                <div class="col m8">
+                    <div class="row">
+                        <div class="card">
+
+                            <div class="card-image">
+                                <div class="row">
+                                    <div class="col m4 offset-m4">
+                                        <p:graphicImage class="icon-svg" name="./img/list.svg" alt="logo"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <h:form >
+                                    <h3>#{agendaBean.animal.nome}</h3>
+                                    <div class="input-field">
+                                        <p:outputLabel for="dataAgenda" value="Data" class="active"/>
+                                        <p:calendar id="dataAgenda"  value="#{agendaBean.agendaConsulta.dataAgendamento}" class="materialize-textarea" required="true" requiredMessage="O campo data é obrigatório"/>
+                                    </div>
+                                    <div class="input-field">
+                                        <p:outputLabel for="horarioAgendamento" value="Horário" class="active"/>
+                                        <p:inputMask  mask="99:99" id="horarioAgendamento"   value="#{agendaBean.agendaConsulta.horarioAgendamento}" class="materialize-textarea" required="true" requiredMessage="O campo hora é obrigatório"/>
+                                    </div>
+                                    <div class="input-field">
+                                        <h:selectOneMenu required="true" value="#{agendaBean.agendaConsulta.veterinarioId.id}" requiredMessage="O campo veterinario é obrigatório" >
+                                            <f:selectItem itemLabel="Veterinário" itemValue="" />
+                                            <f:selectItems value="#{agendaBean.lstVeterinario}" var="v" itemValue="#{v.id}" itemLabel="#{v.nome}"/>
+                                        </h:selectOneMenu>
+                                    </div>
+                                    <div class="input-field">
+                                        <h:selectOneMenu required="true" value="#{agendaBean.agendaConsulta.status}"  requiredMessage="O campo estado do animal é obrigatório" >
+                                            <f:selectItem itemLabel="status"/>
+                                            <f:selectItem itemLabel="normal" itemValue="normal"/>
+                                            <f:selectItem itemLabel="Estado alerta" itemValue="estado alerta"/>
+                                        </h:selectOneMenu>
+                                    </div>
+                                    <div class="input-field">
+                                        <h:commandButton  value="Salvar" actionListener="#{agendaBean.saveAgendamento()}"  class="btn btn-block center-block"/>
+                                    </div>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </h:panelGroup>
+            <h:panelGroup rendered="#{agendaBean.status == 'ShowAgendamentos'}">
+                <h1>Histórico Agendamentos</h1>
+                <h:form>
+                    <h:commandButton class="btn waves-light" value="Voltar" actionListener="#{agendaBean.back()}"/>
+                </h:form>
+                <h:dataTable value="#{agendaBean.lstAgendaConsultas}"  class="bordered highlight" var="agenda">
+                    <h:column>
+                        <f:facet name="header">Data</f:facet>
+                        <p:outputLabel value="#{agenda.dataAgendamento}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </p:outputLabel>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Horário</f:facet>
+                            #{agenda.horarioAgendamento}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Veterinário</f:facet>
+                            #{agenda.veterinarioId.nome}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Status</f:facet>
+                            #{agenda.status}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Atendido</f:facet>
+                            #{agenda.atendido}
+                    </h:column>
+                </h:dataTable>
+            </h:panelGroup>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>
