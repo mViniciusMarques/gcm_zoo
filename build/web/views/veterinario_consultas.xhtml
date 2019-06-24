@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                template="./../template/layout.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <h:panelGroup rendered="#{registroClinicoBean.lstAgendaConsulta.size() == 0}">
+            <h1>Não há consultas marcadas</h1>
+        </h:panelGroup>
+        <h:panelGroup rendered="#{registroClinicoBean.status == 'Default'}">
+            <h:form>
+                <p:repeat id="tbagendas" value="#{registroClinicoBean.lstAgendaConsulta}" var="agenda">
+                        <div class="col s12 m4">
+                            <div class="card  darken-1">
+                                <div class="card-content white-text">
+                                    <ul class="agenda_card">
+                                        <li>Animal: #{agenda.animalCodigo.nome}</li>
+                                        <li>Data:<h:outputText value="#{agenda.dataAgendamento}"><f:convertDateTime pattern="dd/MM/yyyy"/></h:outputText> </li>
+                                        <li>Horário: #{agenda.horarioAgendamento}</li>
+                                        <li>Status: #{agenda.status}</li>
+                                    </ul>
+                                </div>
+                                <div class="card-action">
+                                    <h:commandLink value="Consultar" action="#{registroClinicoBean.btnConsulta(agenda)}" class="waves-effect" />
+                                </div>
+                            </div>
+                        </div>
+                </p:repeat>
+            </h:form>
+        </h:panelGroup>
+        <h:panelGroup rendered="#{registroClinicoBean.status == 'Consultar'|| registroClinicoBean.status == 'AddReceita'}">
+            <div class="col m12">
+                <h1>Consulta </h1>
+                <div class="row">
+                    <div class="col m6">
+                        <h:form>
+                            <h:commandLink value="adicionar receita" action="#{registroClinicoBean.btnAddReceita()}"/>
+                        </h:form>
+                        <div class="card">
+                            <div class="card-image">
+                                <div class="row">
+                                    <div class="col m4 offset-m4">
+                                        <p:graphicImage class="icon-svg" name="./img/nota.svg"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <h:form>
+                                    <p:growl autoUpdate="true"/>
+                                    <div class="input-field">
+                                        <p:outputLabel  value="Diagnóstico"/>
+                                        <p:inputTextarea class="materialize-textarea"  value="#{registroClinicoBean.registroClinico.diagnostico}" required="true" requiredMessage="O campo Diagnóstico é obrigatório"/>
+                                    </div>
+                                    <div class="input-field">
+                                        <h:selectOneMenu required="true" value="#{registroClinicoBean.registroClinico.tipoAtendimento}"  requiredMessage="O campo tipo atendimento é obrigatório" >
+                                            <f:selectItem itemLabel="status"/>
+                                            <f:selectItem itemLabel="preventivo" itemValue="preventivo"/>
+                                            <f:selectItem itemLabel="emergência" itemValue="emergência"/>
+                                        </h:selectOneMenu>
+                                    </div>
+                                    <div class="input-field">
+                                        <p:outputLabel  value="Observações gerais"/>
+                                        <p:inputTextarea class="materialize-textarea"  value="#{registroClinicoBean.registroClinico.observacaoGeral}" required="true" requiredMessage="Observações gerais"/>
+                                    </div>
+                                    <h:selectManyMenu value="#{registroClinicoBean.idVacinas}"  >
+                                        <f:selectItems value="#{registroClinicoBean.lstVacinas}" var="vacina" itemLabel="#{vacina.nome}" itemValue="#{vacina.id}"/>
+                                    </h:selectManyMenu>
+                                    <div class="input-field">
+                                        <h:commandButton value="Salvar" action="#{registroClinicoBean.storeRegistroClinico()}" class="btn btn-block center-block"/>
+                                    </div>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                    <h:panelGroup rendered="#{registroClinicoBean.status == 'AddReceita'}">
+                        <div class="col m6">
+                            <div class="card">
+                                <div class="card-image">
+                                    <div class="row">
+                                        <div class="col m4 offset-m4">
+                                            <p:graphicImage class="icon-svg" name="./img/prescription.svg"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <h:form>
+                                        <p:growl autoUpdate="true"/>
+                                        <div class="input-field">
+                                            <p:outputLabel for="obs" value="Observação"/>
+                                            <p:inputText id="obs" value="#{registroClinicoBean.receita.observacoes}" required="true" requiredMessage="O campo observação é obrigatório"/>
+                                        </div>
+                                        <div class="input-field">
+                                            <p:outputLabel for="dose" value="Dose" class="active"/>
+                                            <p:inputText id="dose" value="#{registroClinicoBean.receita.dose}" required="true" requiredMessage="O campo Dose é obrigatório"/>
+                                        </div>
+                                        <div class="input-field">
+                                            <p:outputLabel for="frequencia" value="Frequencia de Aplicação" />
+                                            <p:inputText id="frequencia" value="#{registroClinicoBean.receita.frequenciaDeAplicacao}"   required="true" requiredMessage="O campo Frequencia de Aplicação é obrigatório"/>
+                                        </div>
+                                        <div class="input-field">
+                                            <h:outputLabel class="active"  value="Medicamentos" />
+                                            <h:selectManyMenu value="#{registroClinicoBean.idmedicamentos}">
+                                                <f:selectItems value="#{registroClinicoBean.lstMedicamentos}" var="medicamento" itemLabel="#{medicamento.nome}" itemValue="#{medicamento.id}"/>
+                                            </h:selectManyMenu>
+                                        </div>
+                                        <div class="input-field">
+                                            <h:commandButton value="Salvar" action="#{registroClinicoBean.storeReceita()}" class="btn btn-block center-block"/>
+                                        </div>
+                                    </h:form>
+                                </div>
+                            </div>
+                        </div>
+                    </h:panelGroup>
+                </div>
+            </div>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>
