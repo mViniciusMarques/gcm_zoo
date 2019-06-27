@@ -7,6 +7,7 @@ package unitTests;
 
 import junit.framework.TestCase;
 import static junit.framework.TestCase.assertEquals;
+import model.Veterinario;
 
 import org.junit.Test;
 
