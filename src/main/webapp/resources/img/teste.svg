@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW 2017 -->
+<?xml-stylesheet href="teste.css" type="text/css"?>
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="441.6mm" height="441.6mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 44160 44160"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ enable-background="new 0 0 1667 1667">
+ <defs>
+   <clipPath id="id0">
+    <rect x="79" y="77" width="44106" height="44106"/>
+   </clipPath>
+ </defs>
+ <g id="Camada_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <g style="clip-path:url(#id0)">
+   <image id="image0" x="79" y="77" width="44106" height="44106" xlink:href="teste_Images\teste_ImgID1.png"/>
+  </g>
+  <rect class="fil0" x="14148" y="41131" width="15725" height="2605" rx="85" ry="85"/>
+ </g>
+</svg>

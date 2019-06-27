@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/layout.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <div class="row">
+            <h:form rendered="#{boletimSaudeBean.status == 'Default'}">
+                <h:dataTable value="#{boletimSaudeBean.lstAnimal}" rendered="#{boletimDiarioBean.status == 'Default'}" class="bordered highlight" var="animal">
+                    <h:column>
+                        <f:facet name="header">Código</f:facet>
+                            #{animal.codigo}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Nome</f:facet>
+                            #{animal.nome}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Evolução clínica</f:facet>
+                        <h:commandLink action="#{boletimSaudeBean.showRegistroClinico(animal)}" value="visualizar" />
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+        </div>
+        <div class="row ">
+            <h:form rendered="#{boletimSaudeBean.status == 'showRegistroClinico'}" style="margin-top: 20px;">
+                <h:commandButton value="voltar" class="btn" action="#{boletimSaudeBean.back()}"/>
+                    <h:dataTable value="#{boletimSaudeBean.animal.boletimSaudeId.registroClinicoList}" rendered="#{boletimDiarioBean.status == 'Default'}" class="bordered responsive-table highlight" var="registro">
+                        <h:column>
+                            <f:facet name="header">Diagnóstico</f:facet>
+                                #{registro.diagnostico}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Atendimento</f:facet>
+                                #{registro.tipoAtendimento}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Observação geral</f:facet>
+                                #{registro.observacaoGeral}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Veterinário</f:facet>
+                                #{registro.veterinarioId.nome}
+                        </h:column>
+                    </h:dataTable>
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/layout.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <h:form>
+        </h:form>
+        <h:dataTable value="#{consultaBean.lstConsultas}" var="consulta" class="bordered highlight">
+            <h:column>
+                <f:facet name="header">Código Animal</f:facet>
+                    #{consulta.agendaConsultaId.animalCodigo.codigo}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nome do Animal</f:facet>
+                    #{consulta.agendaConsultaId.animalCodigo.nome}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Data do agendamento</f:facet>
+                <p:outputLabel value="#{consulta.agendaConsultaId.dataAgendamento}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </p:outputLabel>
+            </h:column>
+            <h:column>
+                <f:facet name="header">horário do agendamento</f:facet>
+                    #{consulta.agendaConsultaId.horarioAgendamento}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Data do atendimento</f:facet>
+                <p:outputLabel value="#{consulta.dataAtendimento}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </p:outputLabel>
+            </h:column>
+            <h:column>
+                <f:facet name="header">horário do atendimento</f:facet>
+                    #{consulta.horaAtendimento}
+            </h:column>
+        </h:dataTable>
+    </ui:define>
+
+</ui:composition>
