@@ -24,10 +24,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- *
- * @author tiago
- */
+
 @Entity
 @Table(catalog = "zoo", schema = "", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"id"})})
